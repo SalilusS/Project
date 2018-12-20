@@ -45,7 +45,7 @@ def encryption():
                     if i >= 0:
                         for b in range(len(MSTR)):
                             if line[i] == MSTR[b]:
-                                pace = (b + (code2**r)*code1*code**i)%136
+                                pace = (b + code2**r + code1*code**i)%136
                         try:
                             line = line[:i] + re.sub(line[i], MSTR[pace], line[i]) + line[(i + 1):]
                         except ValueError and re.error:
@@ -57,6 +57,7 @@ def encryption():
                 print(line[:-1])
         else:
             print("Было введено не ТРЁХЗНАЧНОЕ число")
+            encryption()
     start()
 
 def decoding():
@@ -79,7 +80,7 @@ def decoding():
                     if i >= 0:
                         for b in range(len(MSTR)):
                             if line[i] == MSTR[b]:
-                                pace = (b - (code2**r)*code1*code**i)%136
+                                pace = (b - code2**r - code1*code**i)%136
                         try:
                             line = line[:i] + re.sub(line[i], MSTR[pace], line[i]) + line[(i + 1):]
                         except ValueError and re.error:
@@ -91,6 +92,7 @@ def decoding():
                 print(line[:-1])
         else:
             print("Было введено не ТРЁХЗНАЧНОЕ число")
+            decoding()
     start()
 print("1. Запись прекращается цифрой \"0\"")
 print("2. Чтобы декодировать файл, надо сначала его записать")
