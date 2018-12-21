@@ -5,33 +5,41 @@ def start():
     number = 1
     print("-"*15)
     print("1. Записать")
-    print("2. Закодировать")
-    print("3. Декодировать")
-    print("4. Прекратить выполнение")
+    print("2. Прочитать")
+    print("3. Закодировать")
+    print("4. Декодировать")
+    print("5. Прекратить выполнение")
     decision = input()
     if decision == "1":
         print("Введите текст:")
-        with open('input.txt', 'w') as f:
+        with open('input.txt', 'w') as file:
             line = input()
             while line != "0":
-                f.write(line + '\n')
+                file.write(line + '\n')
                 number += 1
                 line = input()
         start()
     elif decision == "2":
-        encryption()
+        with open('input.txt', 'r') as rto:
+            for line in rto.readlines():
+                print(line[:-1])
+        start()
     elif decision == "3":
+        encryption()
+    elif decision == "4":
         decoding()
     else:
         pass
 
 def encryption():
+    another = ""
     with open('input.txt') as text:
         print("Введите тип шифрования (Трёхзначное число):")
         try:
             code = int(input())
         except ValueError:
             print("Было введено не ЧИСЛО")
+            encryption()
         if 100 <= code <= 999:
             code1 = code%10
             code = code//10
@@ -54,33 +62,37 @@ def encryption():
                             continue
                     else:
                         pass
-                print(line[:-1])
+                another = another + line[:-1] + '\n'
+            with open('input.txt', 'w') as fl1:
+                fl1.write(another)
+            start()
         else:
             print("Было введено не ТРЁХЗНАЧНОЕ число")
             encryption()
-    start()
 
 def decoding():
+    another = ""
     with open('input.txt') as text:
         print("Введите тип шифрования (Трёхзначное число):")
         try:
             code = int(input())
         except ValueError:
             print("Было введено не ЧИСЛО")
+            decoding()
         if 100 <= code <= 999:
             code1 = code % 10
             code = code // 10
             code2 = code % 10
             r = 0
             for line in text:
-                r +=1
+                r += 1
                 i = -2
                 for l in line:
                     i += 1
                     if i >= 0:
                         for b in range(len(MSTR)):
                             if line[i] == MSTR[b]:
-                                pace = (b - code2**r - code1*code**i)%136
+                                pace = (b - code2**r - code1*code**i) % 136
                         try:
                             line = line[:i] + re.sub(line[i], MSTR[pace], line[i]) + line[(i + 1):]
                         except ValueError and re.error:
@@ -89,12 +101,15 @@ def decoding():
                             continue
                     else:
                         pass
-                print(line[:-1])
+                another = another + line[:-1] + '\n'
+            with open('input.txt', 'w') as fl2:
+                fl2.write(another)
+            start()
         else:
             print("Было введено не ТРЁХЗНАЧНОЕ число")
             decoding()
     start()
-print("1. Запись прекращается цифрой \"0\"")
-print("2. Чтобы декодировать файл, надо сначала его записать")
+
+print("Запись прекращается цифрой \"0\"")
 
 start()
