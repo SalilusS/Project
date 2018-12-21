@@ -26,8 +26,10 @@ def start():
         start()
     elif decision == "3":
         encryption()
+        start()
     elif decision == "4":
         decoding()
+        start()
     else:
         pass
 
@@ -38,6 +40,7 @@ def encryption():
         try:
             code = int(input())
         except ValueError:
+            code = 100
             print("Было введено не ЧИСЛО")
             encryption()
         if 100 <= code <= 999:
@@ -65,7 +68,6 @@ def encryption():
                 another = another + line[:-1] + '\n'
             with open('input.txt', 'w') as fl1:
                 fl1.write(another)
-            start()
         else:
             print("Было введено не ТРЁХЗНАЧНОЕ число")
             encryption()
@@ -77,6 +79,7 @@ def decoding():
         try:
             code = int(input())
         except ValueError:
+            code = 100
             print("Было введено не ЧИСЛО")
             decoding()
         if 100 <= code <= 999:
@@ -104,11 +107,9 @@ def decoding():
                 another = another + line[:-1] + '\n'
             with open('input.txt', 'w') as fl2:
                 fl2.write(another)
-            start()
         else:
             print("Было введено не ТРЁХЗНАЧНОЕ число")
             decoding()
-    start()
 
 print("Запись прекращается цифрой \"0\"")
 
