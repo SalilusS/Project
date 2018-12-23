@@ -45,8 +45,8 @@ def encryption():
             encryption()
         if 100 <= code <= 999:
             code1 = code%10
-            code = code//10
-            code2 = code%10
+            code2 = (code//10)%10
+            code = code//100
             r = 0
             for line in text:
                 r += 1
@@ -59,9 +59,8 @@ def encryption():
                                 pace = (b + code2**r + code1*code**i)%136
                         try:
                             line = line[:i] + re.sub(line[i], MSTR[pace], line[i]) + line[(i + 1):]
-                        except ValueError and re.error:
-                            continue
-                        except UnboundLocalError:
+                            pace = 1000
+                        except ValueError and re.error and UnboundLocalError and IndexError:
                             continue
                     else:
                         pass
@@ -83,9 +82,9 @@ def decoding():
             print("Было введено не ЧИСЛО")
             decoding()
         if 100 <= code <= 999:
-            code1 = code % 10
-            code = code // 10
-            code2 = code % 10
+            code1 = code%10
+            code2 = (code//10)%10
+            code = code//100
             r = 0
             for line in text:
                 r += 1
@@ -95,12 +94,11 @@ def decoding():
                     if i >= 0:
                         for b in range(len(MSTR)):
                             if line[i] == MSTR[b]:
-                                pace = (b - code2**r - code1*code**i) % 136
+                                pace = (b - code2**r - code1*code**i)%136
                         try:
                             line = line[:i] + re.sub(line[i], MSTR[pace], line[i]) + line[(i + 1):]
-                        except ValueError and re.error:
-                            continue
-                        except UnboundLocalError:
+                            pace = 1000
+                        except ValueError and re.error and UnboundLocalError and IndexError:
                             continue
                     else:
                         pass
